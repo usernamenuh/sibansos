@@ -80,6 +80,16 @@
     </div>
 </div>
 
+<!-- Quick Menu -->
+<div class="card card-saas border-0 mb-4 p-4">
+    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-lightning-fill text-warning me-1"></i> Aksi Cepat</h5>
+    <div class="d-flex flex-wrap gap-2">
+        <a href="{{ route('persetujuan.index') }}" class="quick-action btn btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-check-circle-fill"></i> Persetujuan</a>
+        <a href="{{ route('penyaluran.index') }}" class="quick-action btn btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-truck"></i> Penyaluran</a>
+        <a href="{{ route('laporan.index') }}" class="quick-action btn btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-file-earmark-bar-graph-fill"></i> Laporan</a>
+    </div>
+</div>
+
 <!-- Approval List -->
 <div class="card card-saas border-0 p-4 mb-4">
     <h5 class="fw-bold text-dark mb-3"><i class="bi bi-clipboard2-check text-primary me-1"></i> Pengajuan Menunggu Persetujuan</h5>
@@ -113,7 +123,7 @@
                             </td>
                             <td class="text-muted small">{{ $p->tanggal_pengajuan->format('d M Y') }}</td>
                             <td>
-                                <a href="#" class="btn btn-outline-primary btn-sm px-3 py-1">Tinjau Kelayakan</a>
+                                <a href="{{ route('persetujuan.show', $p) }}" class="btn btn-outline-primary btn-sm px-3 py-1">Tinjau Kelayakan</a>
                             </td>
                         </tr>
                     @endforeach

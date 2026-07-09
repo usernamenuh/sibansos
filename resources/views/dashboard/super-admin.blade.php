@@ -84,11 +84,11 @@
 <div class="card card-saas border-0 mb-5 p-4">
     <h5 class="fw-bold text-dark mb-3"><i class="bi bi-lightning-fill text-warning me-1"></i> Menu Pintasan Cepat</h5>
     <div class="d-flex flex-wrap gap-2">
-        <a href="#" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-people-fill"></i> Kelola User</a>
-        <a href="#" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-person-badge-fill"></i> Kelola Penerima</a>
-        <a href="#" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-file-earmark-text-fill"></i> Kelola Pengajuan</a>
-        <a href="#" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-gift-fill"></i> Kelola Bantuan</a>
-        <a href="#" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-file-earmark-bar-graph-fill"></i> Laporan</a>
+        <a href="{{ route('users.index') }}" class="quick-action btn btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-people-fill"></i> Kelola User</a>
+        <a href="{{ route('penerima.index') }}" class="quick-action btn btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-person-badge-fill"></i> Kelola Penerima</a>
+        <a href="{{ route('pengajuan.index') }}" class="quick-action btn btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-file-earmark-text-fill"></i> Kelola Pengajuan</a>
+        <a href="{{ route('jenis-bantuan.index') }}" class="quick-action btn btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-gift-fill"></i> Kelola Bantuan</a>
+        <a href="{{ route('laporan.index') }}" class="quick-action btn btn-sm d-flex align-items-center gap-2 py-2 px-3"><i class="bi bi-file-earmark-bar-graph-fill"></i> Laporan</a>
     </div>
 </div>
 

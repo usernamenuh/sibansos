@@ -87,21 +87,21 @@
         <div class="card card-saas border-0 p-4 h-100">
             <h5 class="fw-bold text-dark mb-4"><i class="bi bi-lightning-fill text-warning me-1"></i> Pintasan Cepat</h5>
             <div class="d-grid gap-3">
-                <a href="#" class="btn btn-outline-primary py-3 d-flex align-items-center justify-content-start gap-3 px-3">
+                <a href="{{ route('penerima.index') }}" class="quick-action btn py-3 d-flex align-items-center justify-content-start gap-3 px-3">
                     <i class="bi bi-person-badge-fill fs-5"></i>
                     <div class="text-start">
                         <div class="fw-semibold">Data Penerima</div>
                         <div class="small text-muted" style="font-size: 0.75rem;">Tambah & kelola penerima bansos.</div>
                     </div>
                 </a>
-                <a href="#" class="btn btn-outline-primary py-3 d-flex align-items-center justify-content-start gap-3 px-3">
+                <a href="{{ route('pengajuan.index') }}" class="quick-action btn py-3 d-flex align-items-center justify-content-start gap-3 px-3">
                     <i class="bi bi-file-earmark-text-fill fs-5"></i>
                     <div class="text-start">
                         <div class="fw-semibold">Daftar Pengajuan</div>
                         <div class="small text-muted" style="font-size: 0.75rem;">Proses dokumen pengajuan bansos.</div>
                     </div>
                 </a>
-                <a href="#" class="btn btn-outline-primary py-3 d-flex align-items-center justify-content-start gap-3 px-3">
+                <a href="{{ route('jenis-bantuan.index') }}" class="quick-action btn py-3 d-flex align-items-center justify-content-start gap-3 px-3">
                     <i class="bi bi-gift-fill fs-5"></i>
                     <div class="text-start">
                         <div class="fw-semibold">Jenis Bantuan</div>
