@@ -1,83 +1,105 @@
+# ==========================================
+# Stage 1 - Composer
+# ==========================================
+FROM composer:2 AS composer
+
+WORKDIR /app
+
+COPY composer.json composer.lock ./
+
+RUN composer install \
+    --no-dev \
+    --prefer-dist \
+    --no-interaction \
+    --no-scripts
+
+COPY . .
+
+RUN composer dump-autoload --optimize
+
+
+# ==========================================
+# Stage 2 - Node / Vite
+# ==========================================
+FROM node:22 AS node
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+
+# ==========================================
+# Stage 3 - Production
+# ==========================================
 FROM php:8.4-fpm
 
-# Install system dependencies
+# Install packages
 RUN apt-get update && apt-get install -y \
+    nginx \
     git \
-    curl \
     unzip \
     zip \
-    nginx \
+    curl \
     supervisor \
+    libzip-dev \
     libpng-dev \
     libjpeg62-turbo-dev \
     libfreetype6-dev \
-    libzip-dev \
-    libonig-dev \
-    libxml2-dev \
     libicu-dev \
-    libpq-dev \
+    libxml2-dev \
+    libonig-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions
+# PHP Extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
 RUN docker-php-ext-install \
     pdo \
     pdo_mysql \
     mysqli \
-    zip \
-    exif \
     bcmath \
+    exif \
     intl \
     pcntl \
+    zip \
     gd
-
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Copy composer files first (Docker cache)
-COPY composer.json composer.lock ./
-
-RUN composer install \
-    --no-dev \
-    --prefer-dist \
-    --optimize-autoloader \
-    --no-interaction \
-    --no-scripts
-
-# Copy project
+# Copy application
 COPY . .
 
-# Finish composer
-RUN composer dump-autoload --optimize
+# Copy vendor dari composer stage
+COPY --from=composer /app/vendor ./vendor
+
+# Copy Vite build
+COPY --from=node /app/public/build ./public/build
 
 # Permissions
-RUN mkdir -p storage/framework/{cache,sessions,views} \
-    && mkdir -p bootstrap/cache \
-    && chown -R www-data:www-data storage bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
+RUN mkdir -p storage/framework/cache \
+    storage/framework/views \
+    storage/framework/sessions \
+    storage/logs \
+    bootstrap/cache
 
-# Laravel optimizations
+RUN chown -R www-data:www-data storage bootstrap/cache
+
+RUN chmod -R 775 storage bootstrap/cache
+
+# Laravel optimize
+RUN php artisan package:discover --ansi
+
 RUN php artisan storage:link || true
 
-# Nginx config
 COPY nginx.conf /etc/nginx/sites-available/default
 
-# Startup script
-RUN printf '#!/bin/bash\n\
-set -e\n\
-\n\
-php artisan key:generate --force || true\n\
-php artisan migrate --force || true\n\
-php artisan config:cache\n\
-php artisan route:cache\n\
-php artisan view:cache\n\
-php artisan event:cache || true\n\
-\n\
-php-fpm -D\n\
-nginx -g "daemon off;"\n' > /start.sh
+COPY start.sh /start.sh
 
 RUN chmod +x /start.sh
 

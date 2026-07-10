@@ -1,10 +1,15 @@
 #!/bin/bash
 set -e
 
-echo "Storage link..."
-php artisan storage:link || true
+echo "Fixing permissions..."
 
-echo "Migrating database..."
+chown -R www-data:www-data /var/www/storage
+chown -R www-data:www-data /var/www/bootstrap/cache
+
+chmod -R 775 /var/www/storage
+chmod -R 775 /var/www/bootstrap/cache
+
+echo "Running migrations..."
 php artisan migrate --force || true
 
 echo "Optimizing Laravel..."
